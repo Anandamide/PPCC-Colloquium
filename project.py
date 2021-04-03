@@ -588,7 +588,7 @@ class Scene3 (Scene):
         alpha4[11].set_color(color=BLUE)
         alpha4[12].set_color(color=GREEN)
 
-        alpha5 = MathTex(r"\alpha","(",r"\vec v",")=","v^x",r"\alpha","(",r"\vec e_y",")+","v^y",r"\alpha","(",r"\vec e_y",")").next_to(text26,DOWN*2).scale(2)
+        alpha5 = MathTex(r"\alpha","(",r"\vec v",")=","v^x",r"\alpha","(",r"\vec e_x",")+","v^y",r"\alpha","(",r"\vec e_y",")").next_to(text26,DOWN*2).scale(2)
         alpha5[0].set_color(color=YELLOW)
         alpha5[2].set_color(color=BLUE)
         alpha5[4].set_color(color=BLUE)
@@ -885,6 +885,1245 @@ class Scene4(Scene):
         self.wait(5)
         self.play(FadeOut(text54),FadeOut(text55),FadeOut(text56),FadeOut(text57))
 
-class Scene5(Scene):
+        text58 = Text("A side note about stack spacing")
+
+        self.play(Write(text58))
+        self.wait(2)
+        self.play(FadeOut(text58))
+
+        text59 = Text("We have arbitrarily chosen to space").move_to(UP*2)
+        text60 = Text("the stacks at integer sets, and").next_to(text59,DOWN)
+        text61 = Text("applying the covector adds 1 for each").next_to(text60,DOWN)
+        text62 = Text("stack the vector pierces.").next_to(text61,DOWN)
+
+        self.play(Write(text59),Write(text60),Write(text61),Write(text62))
+        self.wait(6)
+        self.play(FadeOut(text59),FadeOut(text60),FadeOut(text61),FadeOut(text62))
+
+        text63 = Text("We could have also drawn them twice").move_to(UP)
+        text64 = Text("as dense and added 1/2 for each stack.").next_to(text63,DOWN)
+
+        self.play(Write(text63),Write(text64))
+        self.wait(4)
+        self.play(FadeOut(text63),FadeOut(text64))
+
+        a = Arrow([-1,0,0],[1.5,2.5,0],buff=0,color=BLUE)
+        b5 = BraceBetweenPoints([-1,0,0],[1.5,2.5,0])
+        b5text = b5.get_tex(r"\alpha","(",r"\vec v",")=2.5")
+        b5text[0].set_color(color=YELLOW)
+        b5text[2].set_color(color=BLUE)
+
+        line1 = Line([-5,5,0],[5,-5,0]).set_color(color=GREY).set_opacity(0.5)
+        arrow1 = Arrow([0,0,0],[0.3,0.3,0],buff=0).set_color(color=GREY).set_opacity(0.5)
+        stack1 = VGroup(line1,arrow1)
+        stack2 = stack1.copy().move_to([1,1,0])
+        stack3 = stack1.copy().move_to([2,2,0])
+        stack4 = stack1.copy().move_to([3,3,0])
+        stack5 = stack1.copy().move_to([4,4,0])
+        stack6 = stack1.copy().move_to([5,5,0])
+        stack7 = stack1.copy().move_to([-1,-1,0])
+        stack8 = stack1.copy().move_to([-2,-2,0])
+        stack9 = stack1.copy().move_to([-3,-3,0])
+        stack10 = stack1.copy().move_to([-4,-4,0])
+        stack11 = stack1.copy().move_to([-5,-5,0])
+
+        alpha1 = VGroup(stack1.set_color(color=WHITE),stack2,stack3,stack4,stack5,stack6,stack7,stack8,stack9,stack10,stack11).move_to([-1,0,0])
+
+        beta1 = VGroup(stack1.set_color(color=WHITE),
+                      stack1.copy().move_to([-5,-5,0]),
+                      stack1.copy().move_to([-4.5,-4.5,0]),
+                      stack1.copy().move_to([-4,-4,0]),
+                      stack1.copy().move_to([-3.5,-3.5,0]),
+                      stack1.copy().move_to([-3,-3,0]),
+                      stack1.copy().move_to([-2.5,-2.5,0]),
+                      stack1.copy().move_to([-2,-2,0]),
+                      stack1.copy().move_to([-1.5,-1.5,0]),
+                      stack1.copy().move_to([-1,-1,0]),
+                      stack1.copy().move_to([-0.5,-0.5,0]),
+                      stack1.copy().move_to([5,5,0]),
+                      stack1.copy().move_to([4.5,4.5,0]),
+                      stack1.copy().move_to([4,4,0]),
+                      stack1.copy().move_to([3.5,3.5,0]),
+                      stack1.copy().move_to([3,3,0]),
+                      stack1.copy().move_to([2.5,2.5,0]),
+                      stack1.copy().move_to([2,2,0]),
+                      stack1.copy().move_to([0.5,0.5,0]),
+                      stack1.copy().move_to([1,1,0]),
+                      stack1.copy().move_to([1.5,1.5,0]),
+                      stack1.copy().move_to([0,0,0]))
+
+        self.play(ShowCreation(alpha1),GrowFromCenter(a),GrowFromCenter(b5),Write(b5text))
+        self.wait(3)
+        self.play(Transform(alpha1,beta1))
+        self.wait(3)
+        self.play(FadeOut(alpha1),FadeOut(a),FadeOut(b5),FadeOut(b5text))
+
+        text65 = Text("Whats really going on is that the").move_to(UP*1.5)
+        text66 = Text("covector stacks are dense with each").next_to(text65,DOWN)
+        text67 = Text("stack contributing a small ammount").next_to(text66,DOWN)
+
+        self.play(Write(text65),Write(text66),Write(text67))
+        self.wait(5)
+        self.play(FadeOut(text65),FadeOut(text66),FadeOut(text67))
+
+
+class Scene5(GraphScene):
+    def __init__(self, **kwargs):
+        GraphScene.__init__(
+            self,
+            x_min=-1.5,
+            x_max=3.5,
+            x_axis_width=10,
+            num_graph_anchor_points=100,
+            y_min=-3,
+            y_max=6,
+            graph_origin=LEFT*4.5,
+            axes_color=WHITE,
+            x_labeled_nums=range(-1,4, 1),
+            y_labeled_nums=range(-3,7, 1),
+            y_axis_height=4.5,
+            **kwargs
+        )
+        self.function_color = RED
     def construct(self):
+        text1 = Text("To understand the definite integral in").move_to(UP*1.5)
+        text2 = Text("terms of covectors we will need to ").next_to(text1,DOWN)
+        text3 = Text("reinterpret the d in dx").next_to(text2,DOWN)
+
+        self.play(Write(text1),Write(text2),Write(text3))
+        self.wait(5)
+        self.play(FadeOut(text1),FadeOut(text2),FadeOut(text3))
+
+        text4 = Text("Originally for some variable x,").move_to(UP*1.5)
+        text5 = Text("dx is some small nudge").next_to(text4,DOWN)
+        text6 = Text("in the x direction.").next_to(text5,DOWN)
+        text7 = MathTex(r"x\,\xrightarrow{d}\,dx").scale(1.5).next_to(text6,DOWN)
+
+        self.play(Write(text4),Write(text5),Write(text6),Write(text7))
+        self.wait(6)
+        self.play(FadeOut(text4),FadeOut(text5),FadeOut(text6),FadeOut(text7))
+
+        text8 = Text("We will now think of d as an operator").move_to(UP*1.5)
+        text9 = Text("that takes a scalar field F").next_to(text8,DOWN)
+        text10 = Text("and returns a covector field dF").next_to(text9,DOWN)
+        text11 = MathTex(r"F\,\xrightarrow{d}\,dF").scale(1.5).next_to(text10,DOWN)
+
+        self.play(Write(text8),Write(text9),Write(text10),Write(text11))
+        self.wait(6)
+        self.play(FadeOut(text8),FadeOut(text9),FadeOut(text10),FadeOut(text11))
+
+        text12 = Text("A covector field is a map that").move_to(UP*1.5)
+        text13 = Text("takes a point in our space and").next_to(text12,DOWN)
+        text14 = Text("maps a covector to it").next_to(text13,DOWN)
+        text15 = MathTex(r"df: (x_1,x_2,...,x_n)\in\mathbb{R}^n \rightarrow \alpha\in V*").scale(1.5).next_to(text14,DOWN)
+
+        self.play(Write(text12),Write(text13),Write(text14),Write(text15))
+        self.wait(7)
+        self.play(FadeOut(text12),FadeOut(text13),FadeOut(text14),FadeOut(text15))
+
+        text16 = Text("We can visualize dF as").move_to(UP)
+        text17 = Text("the level sets of F ").next_to(text16,DOWN)
+
+        self.play(Write(text16),Write(text17))
+        self.wait(3)
+        self.play(FadeOut(text16),FadeOut(text17))
+
+        self.setup_axes(animate=True)
+
+        func1 =self.get_graph(lambda x: 4- 2*x,
+                                    x_min=-1,
+                                    x_max=3).set_color(color=BLUE)
+        func2 =self.get_graph(lambda x: 4*x- x**2 +2,
+                                    x_min=-1,
+                                    x_max=3)
+        text18 = MathTex("f(x) = 4-2x").move_to(self.coords_to_point(4.5,3))
+        text19 = MathTex("F(x) = 2+4x-x^2").move_to(self.coords_to_point(4.5,3))
+        text20 = MathTex("dF").move_to(self.coords_to_point(4.5,-5.5))
+
+        vline1 = self.get_vertical_line_to_graph(-1,func2,DashedLine, color=YELLOW)
+        vline2 = self.get_vertical_line_to_graph(2-(math.sqrt(8)),func2,DashedLine, color=YELLOW)
+        vline3 = self.get_vertical_line_to_graph(2-(math.sqrt(7)),func2,DashedLine, color=YELLOW)
+        vline4 = self.get_vertical_line_to_graph(2-(math.sqrt(6)),func2,DashedLine, color=YELLOW)
+        vline5 = self.get_vertical_line_to_graph(2-(math.sqrt(5)),func2,DashedLine, color=YELLOW)
+        vline6 = self.get_vertical_line_to_graph(0,func2,DashedLine, color=YELLOW)
+        vline7 = self.get_vertical_line_to_graph(2-(math.sqrt(3)),func2,DashedLine, color=YELLOW)
+        vline8 = self.get_vertical_line_to_graph(2-(math.sqrt(2)),func2,DashedLine, color=YELLOW)
+        vline9 = self.get_vertical_line_to_graph(1,func2,DashedLine, color=YELLOW)
+        vline10 = self.get_vertical_line_to_graph(2,func2,DashedLine, color=YELLOW)
+        vline11 = self.get_vertical_line_to_graph(3,func2,DashedLine, color=YELLOW)
+        vlines = VGroup(vline1,vline2,vline3,vline4,vline5,vline6,vline7,vline8,vline9,vline10,vline11)
+
+        hline1 = self.get_graph(lambda x: -3, x_min=-1.5, x_max=3.5, color=RED).set_opacity(0.5)
+        hline2 = self.get_graph(lambda x: -2, x_min=-1.5, x_max=3.5, color=RED).set_opacity(0.5)
+        hline3 = self.get_graph(lambda x: -1, x_min=-1.5, x_max=3.5, color=RED).set_opacity(0.5)
+        hline4 = self.get_graph(lambda x: 0, x_min=-1.5, x_max=3.5, color=RED).set_opacity(0.5)
+        hline5 = self.get_graph(lambda x: 1, x_min=-1.5, x_max=3.5, color=RED).set_opacity(0.5)
+        hline6 = self.get_graph(lambda x: 2, x_min=-1.5, x_max=3.5, color=RED).set_opacity(0.5)
+        hline7 = self.get_graph(lambda x: 3, x_min=-1.5, x_max=3.5, color=RED).set_opacity(0.5)
+        hline8 = self.get_graph(lambda x: 4, x_min=-1.5, x_max=3.5, color=RED).set_opacity(0.5)
+        hline9 = self.get_graph(lambda x: 5, x_min=-1.5, x_max=3.5, color=RED).set_opacity(0.5)
+        hline10 = self.get_graph(lambda x: 6, x_min=-1.5, x_max=3.5, color=RED).set_opacity(0.5)
+
+        hlines = VGroup(hline1,hline2,hline3,hline4,hline5,hline6,hline7,hline8,hline9,hline10)
+
+        stack1 = Line(self.coords_to_point(-1,-4),
+                      self.coords_to_point(-1,-7))
+        stack2 = Line(self.coords_to_point(2-math.sqrt(8),-4),
+                      self.coords_to_point(2-math.sqrt(8),-7))
+        stack3 = Line(self.coords_to_point(2-math.sqrt(7),-4),
+                      self.coords_to_point(2-math.sqrt(7),-7))
+        stack4 = Line(self.coords_to_point(2-math.sqrt(6),-4),
+                      self.coords_to_point(2-math.sqrt(6),-7))
+        stack5 = Line(self.coords_to_point(2-math.sqrt(5),-4),
+                      self.coords_to_point(2-math.sqrt(5),-7))
+        stack6 = Line(self.coords_to_point(0,-4),
+                      self.coords_to_point(0,-7))
+        stack7 = Line(self.coords_to_point(2-math.sqrt(3),-4),
+                      self.coords_to_point(2-math.sqrt(3),-7))
+        stack8 = Line(self.coords_to_point(2-math.sqrt(2),-4),
+                      self.coords_to_point(2-math.sqrt(2),-7))
+        stack9 = Line(self.coords_to_point(1,-4),
+                      self.coords_to_point(1,-7))
+        stack10 = Line(self.coords_to_point(2,-4),
+                      self.coords_to_point(2,-7)).set_color(color=YELLOW)
+        stack11 = Line(self.coords_to_point(3,-4),
+                      self.coords_to_point(3,-7))
+        stacks = VGroup(stack1,stack2,stack3,stack4,stack5,stack6,stack7,stack8,stack9,stack10,stack11).set_opacity(0.5)
+
+        arrow1 = Arrow(self.coords_to_point(-1,-5.6),self.coords_to_point(-1+0.1,-5.6),buff=0)
+        arrow2 = Arrow(self.coords_to_point(2-math.sqrt(8),-5.6),self.coords_to_point(2-math.sqrt(8)+0.1,-5.6),buff=0)
+        arrow3 = Arrow(self.coords_to_point(2-math.sqrt(7),-5.6),self.coords_to_point(2-math.sqrt(7)+0.1,-5.6),buff=0)
+        arrow4 = Arrow(self.coords_to_point(2-math.sqrt(6),-5.6),self.coords_to_point(2-math.sqrt(6)+0.1,-5.6),buff=0)
+        arrow5 = Arrow(self.coords_to_point(2-math.sqrt(5),-5.6),self.coords_to_point(2-math.sqrt(5)+0.1,-5.6),buff=0)
+        arrow6 = Arrow(self.coords_to_point(2-math.sqrt(4),-5.6),self.coords_to_point(2-math.sqrt(4)+0.1,-5.6),buff=0)
+        arrow7 = Arrow(self.coords_to_point(2-math.sqrt(3),-5.6),self.coords_to_point(2-math.sqrt(3)+0.1,-5.6),buff=0)
+        arrow8 = Arrow(self.coords_to_point(2-math.sqrt(2),-5.6),self.coords_to_point(2-math.sqrt(2)+0.1,-5.6),buff=0)
+        arrow9 = Arrow(self.coords_to_point(1,-5.6),self.coords_to_point(1+0.1,-5.6),buff=0)
+        arrow10 = Arrow(self.coords_to_point(2,-5.6),self.coords_to_point(2+0.1,-5.6),buff=0).set_color(color=YELLOW)
+        arrow11 = Arrow(self.coords_to_point(2,-5.6),self.coords_to_point(2-0.1,-5.6),buff=0).set_color(color=YELLOW)
+        arrow12 = Arrow(self.coords_to_point(3,-5.6),self.coords_to_point(3-0.1,-5.6),buff=0)
+
+        arrows = VGroup(arrow1,arrow2,arrow3,arrow4,arrow5,arrow6,arrow7,arrow8,arrow9,arrow10,arrow11,arrow12).set_opacity(0.5)
+
+        func3 = func1.copy()
+
+        self.play(ShowCreation(func1),Write(text18))
+        self.wait(2)
+        self.play(Transform(func1,func2),Transform(text18,text19))
+        self.wait(2)
+        self.play(ShowCreation(hlines))
+        self.wait(3)
+        self.play(ShowCreation(vlines))
+        self.wait(3)
+        self.play(ShowCreation(stacks),ShowCreation(arrows),FadeOut(hlines),Write(text20))
+        self.wait(6)
+        self.play(FadeOut(func1),FadeOut(text18),FadeOut(text20),FadeOut(vlines),FadeOut(stacks),FadeOut(self.axes),FadeOut(arrows))
+
+        text21 = Text("If F(x) is the scalar potential for f(x)").move_to(UP*1.5)
+        text22 = MathTex(r"\textrm{then} &\int_{a}^{b}f(x)dx \\ = &\int_{a}^{b}dF").scale(1.5).next_to(text21,DOWN)
+        text23 = Text("The value of the integral is the number").move_to(UP)
+        text24 = Text("of stacks of dF we cross on our path").next_to(text23,DOWN)
+        self.play(Write(text21),Write(text22))
+        self.wait(3)
+        self.play(FadeOut(text21),FadeOut(text22))
+        self.play(Write(text23),Write(text24))
+        self.wait(3)
+        self.play(FadeOut(text23),FadeOut(text24))
+
+        area = self.get_riemann_rectangles(func3,-1,3,dx=0.005, input_sample_type='right', stroke_width=0, stroke_color='#000000', fill_opacity=0.5)
+        lowerbound = self.get_vertical_line_to_graph(-1,func1,DashedLine,color=YELLOW)
+        upperbound = self.get_vertical_line_to_graph(3,func1,DashedLine,color=YELLOW)
+        path1 = Arrow(self.coords_to_point(-1,-5),self.coords_to_point(3,-5),color=BLUE,buff=0)
+        path2 = Arrow(self.coords_to_point(3,-6.2),self.coords_to_point(-1,-6.2),color=RED,buff=0)
+
+        text25 = MathTex(r"\int_{-1}^3 f(x)dx = 8").move_to(self.coords_to_point(4.5,6))
+        text26 = MathTex("dF(",r"\vec p",")=9-1=8").move_to(self.coords_to_point(4.5,-5))
+        text26[1].set_color(color=BLUE)
+        text27 = MathTex("dF(",r"-\vec p",")=1-9=-8").move_to(self.coords_to_point(4.5,-6.2))
+        text27[1].set_color(color=RED)
+        text28 = MathTex(r"\int_3^{-1} f(x)dx = -8").move_to(self.coords_to_point(4.5,3))
+
+        self.play(ShowCreation(self.axes),ShowCreation(func3),ShowCreation(stacks),ShowCreation(arrows),Write(text18),Write(text20))
+        self.wait(3)
+        self.play(ShowCreation(lowerbound),ShowCreation(upperbound),ShowCreation(area),ShowCreation(path1),Transform(text18,text25),Transform(text20,text26))
+        self.wait(6)
+        self.play(ShowCreation(path2),Write(text27),Write(text28))
+        self.wait(6)
+
+class Scene6 (ThreeDScene):
+    def construct(self):
+
+        text1 = Text("We can extend this to 3D!")
+        text2 = MathTex(r"\textrm{Let }","f(x,y)",r"\textrm{ be a surface in space}").scale(2)
+
+        self.play(Write(text1))
+        self.wait(2)
+        self.play(FadeOut(text1))
+        self.play(Write(text2))
+        self.wait(3)
+        self.play(FadeOut(text2))
+
+        axes = ThreeDAxes(z_min=-2,z_max=4,x_min=-7,x_max=7,y_min=-7,y_max=7)
+        self.set_camera_orientation(phi=75 * DEGREES, theta=-30 * DEGREES)
+
+        def f(u,v):
+            return np.array([u,v,0])
+        plane = ParametricSurface(
+            f,
+            resolution=(22,22),
+            v_min=-3,
+            v_max=+3,
+            u_min=-3,
+            u_max=+3
+        )
+        plane2 =plane.copy().set_opacity(0)
+        def g(u,v):
+            return np.array([u,v,(0.5*u**2 + 0.5*v**2)-2])
+        surface = ParametricSurface(
+            g,
+            resolution=(22,22),
+            v_min=-3,
+            v_max=+3,
+            u_min=-3,
+            u_max=+3
+        )
+        surface.set_style(fill_opacity=1)
+        surface.set_style(stroke_color=PURPLE)
+        surface.set_fill_by_checkerboard(PURPLE, BLUE, opacity=0.1)
+
+        level1 = ParametricSurface(
+            lambda x, y : np.array([x,y,-2]),
+            resolution=(22,22),
+            v_min=-1.5,
+            v_max=+1.5,
+            u_min=-1.5,
+            u_max=+1.5,
+            opacity=0.2
+        )
+
+        level2 = ParametricSurface(
+            lambda x, y : np.array([x,y,-1]),
+            resolution=(22,22),
+            v_min=-2,
+            v_max=+2,
+            u_min=-2,
+            u_max=+2,
+            opacity=0.2
+        )
+
+        level3 = ParametricSurface(
+            lambda x, y : np.array([x,y,0]),
+            resolution=(22,22),
+            v_min=-2.5,
+            v_max=+2.5,
+            u_min=-2.5,
+            u_max=+2.5,
+            opacity=0.2
+        )
+
+        level4 = ParametricSurface(
+            lambda x, y : np.array([x,y,1]),
+            resolution=(22,22),
+            v_min=-3,
+            v_max=+3,
+            u_min=-3,
+            u_max=+3,
+            opacity=0.2
+        )
+
+        level5 = ParametricSurface(
+            lambda x, y : np.array([x,y,2]),
+            resolution=(22,22),
+            v_min=-3.5,
+            v_max=+3.5,
+            u_min=-3.5,
+            u_max=+3.5,
+            opacity=0.2
+        )
+
+        level6 = ParametricSurface(
+            lambda x, y : np.array([x,y,3]),
+            resolution=(22,22),
+            v_min=-4,
+            v_max=+4,
+            u_min=-4,
+            u_max=+4,
+            opacity=0.2
+        )
+
+        circle1 = Dot([0,0,-2]).set_color(color=RED)
+
+        circle2 = ParametricFunction(
+            lambda u: np.array([math.sqrt(2)*np.cos(u),math.sqrt(2)*np.sin(u),-1]),
+            t_min=0,
+            t_max=2*3.15
+        ).set_color(color=RED)
+
+        circle3 = ParametricFunction(
+            lambda u: np.array([2*np.cos(u),2*np.sin(u),0]),
+            t_min=0,
+            t_max=2*3.15
+        ).set_color(color=RED)
+
+        circle4 = ParametricFunction(
+            lambda u: np.array([math.sqrt(6)*np.cos(u),math.sqrt(6)*np.sin(u),1]),
+            t_min=0,
+            t_max=2*3.15
+        ).set_color(color=RED)
+
+        circle5 = ParametricFunction(
+            lambda u: np.array([math.sqrt(8)*np.cos(u),math.sqrt(8)*np.sin(u),2]),
+            t_min=0,
+            t_max=2*3.15
+        ).set_color(color=RED)
+
+        circle6 = ParametricFunction(
+            lambda u: np.array([math.sqrt(10)*np.cos(u),math.sqrt(10)*np.sin(u),3]),
+            t_min=0,
+            t_max=2*3.15
+        ).set_color(color=RED)
+
+        circle7 = ParametricFunction(
+            lambda u: np.array([math.sqrt(12)*np.cos(u),math.sqrt(12)*np.sin(u),4]),
+            t_min=0,
+            t_max=2*3.15
+        ).set_color(color=RED)
+
+        circle8 = ParametricFunction(
+            lambda u: np.array([math.sqrt(14)*np.cos(u),math.sqrt(14)*np.sin(u),5]),
+            t_min=0,
+            t_max=2*3.15
+        ).set_color(color=RED)
+
+        circle9 = ParametricFunction(
+            lambda u: np.array([math.sqrt(16)*np.cos(u),math.sqrt(16)*np.sin(u),6]),
+            t_min=0,
+            t_max=2*3.15
+        ).set_color(color=RED)
+
+        circle10 = ParametricFunction(
+            lambda u: np.array([math.sqrt(18)*np.cos(u),math.sqrt(18)*np.sin(u),7]),
+            t_min=0,
+            t_max=2*3.15
+        ).set_color(color=RED)
+
+        circle11 = ParametricFunction(
+            lambda u: np.array([math.sqrt(20)*np.cos(u),math.sqrt(20)*np.sin(u),8]),
+            t_min=0,
+            t_max=2*3.15
+        ).set_color(color=RED)
+
+        circle12 = ParametricFunction(
+            lambda u: np.array([math.sqrt(22)*np.cos(u),math.sqrt(22)*np.sin(u),9]),
+            t_min=0,
+            t_max=2*3.15
+        ).set_color(color=RED)
+
+        circle13 = ParametricFunction(
+            lambda u: np.array([math.sqrt(24)*np.cos(u),math.sqrt(24)*np.sin(u),10]),
+            t_min=0,
+            t_max=2*3.15
+        ).set_color(color=RED)
+
+        circle14 = ParametricFunction(
+            lambda u: np.array([math.sqrt(26)*np.cos(u),math.sqrt(26)*np.sin(u),11]),
+            t_min=0,
+            t_max=2*3.15
+        ).set_color(color=RED)
+
+        circle15 = ParametricFunction(
+            lambda u: np.array([math.sqrt(28)*np.cos(u),math.sqrt(28)*np.sin(u),12]),
+            t_min=0,
+            t_max=2*3.15
+        ).set_color(color=RED)
+
+        circle16 = ParametricFunction(
+            lambda u: np.array([math.sqrt(30)*np.cos(u),math.sqrt(30)*np.sin(u),13]),
+            t_min=0,
+            t_max=2*3.15
+        ).set_color(color=RED)
+
+        circle17 = ParametricFunction(
+            lambda u: np.array([math.sqrt(32)*np.cos(u),math.sqrt(32)*np.sin(u),14]),
+            t_min=0,
+            t_max=2*3.15
+        ).set_color(color=RED)
+
+        circle18 = ParametricFunction(
+            lambda u: np.array([math.sqrt(34)*np.cos(u),math.sqrt(34)*np.sin(u),15]),
+            t_min=0,
+            t_max=2*3.15
+        ).set_color(color=RED)
+
+        circle19 = ParametricFunction(
+            lambda u: np.array([math.sqrt(36)*np.cos(u),math.sqrt(36)*np.sin(u),16]),
+            t_min=0,
+            t_max=2*3.15
+        ).set_color(color=RED)
+
+        text3 = MathTex(r"f(x,y)=\frac{1}{2}x^2+\frac{1}{2}y^2 -2")
+        text3.to_corner(UL)
+
+        self.add(axes)
+        self.play(Write(plane))
+        self.add_fixed_in_frame_mobjects(text3)
+        self.play(Transform(plane,surface))
+        self.begin_ambient_camera_rotation(rate=0.1)
+        self.wait(4)
+        self.stop_ambient_camera_rotation()
+        self.play(FadeOut(text3),FadeOut(axes),FadeOut(plane))
+
+        text4 = Text("You may have learned about").move_to(UP*1.5)
+        text5 = Text("the gradient of a function.").next_to(text4,DOWN)
+        text6 = MathTex(r"\nabla f = \frac {\partial f}{\partial x}\vec e_x + \frac {\partial f}{\partial y}\vec e_y").next_to(text5,DOWN*1.5).scale(1.5)
+        self.add_fixed_in_frame_mobjects(text4,text5,text6)
+        self.wait(6)
+        self.play(FadeOut(text4),FadeOut(text5),FadeOut(text6))
+
+        text7 = Text("Which gives us a vector field that").move_to(UP*1.5)
+        text8 = Text("tells us the slope of the surface").next_to(text7,DOWN)
+        text9 = Text("in the direction of steepest ascent.").next_to(text8,DOWN)
+        text10 = MathTex(r"\nabla f = x \vec e_x + y \vec e_y").to_corner(UR)
+        self.add_fixed_in_frame_mobjects(text7,text8,text9)
+        self.wait(6)
+        self.play(FadeOut(text7),FadeOut(text8),FadeOut(text9))
+
+        vf = VectorField(
+            lambda x : np.array([0.4*x[0],0.4*x[1]]),
+            delta_x=0.5,
+            delta_y=0.5,
+            min_magnitude=0.8,
+            max_magnitude=2,
+            colors=[BLUE,GREEN,YELLOW,ORANGE,RED])
+        self.play(ShowCreation(axes),ShowCreation(surface))
         self.wait()
+        self.play(ShowCreation(vf))
+        self.add_fixed_in_frame_mobjects(text10)
+        self.begin_ambient_camera_rotation(rate=0.1)
+        self.wait(5)
+        self.stop_ambient_camera_rotation()
+        self.play(FadeOut(text10),FadeOut(axes),FadeOut(surface),FadeOut(vf))
+        self.set_camera_orientation(phi=75 * DEGREES, theta=-30 * DEGREES)
+
+        text11 = Text("This is closely related to df").move_to(UP*2)
+        text12 = MathTex(r"\nabla f = \frac {\partial f}{\partial x}\vec e_x + \frac {\partial f}{\partial y}\vec e_y").move_to(UP*0.5).scale(1.5)
+        text13 = MathTex(r"df=\frac {\partial f}{\partial x} dx +\frac{\partial f}{\partial y} dy").move_to(DOWN*2).scale(1.5)
+        text14 = MathTex(r"\nabla f = x \vec e_x + y \vec e_y").move_to(UP*0.5).scale(1.5)
+        text15 = MathTex(r"df=xdx+ydy").move_to(DOWN*1.1).scale(1.5)
+        text16 = MathTex(r"*\,f(x,y)=\frac{1}{2}x^2+\frac{1}{2}y^2 -2").move_to(DOWN*2.1)
+
+        self.add_fixed_in_frame_mobjects(text11,text12,text13)
+        self.wait(5)
+        self.play(Transform(text12,text14),Transform(text13,text15))
+        self.add_fixed_in_frame_mobjects(text16)
+        self.wait(3)
+        self.play(FadeOut(text11),FadeOut(text12),FadeOut(text13),FadeOut(text16))
+
+        self.play(ShowCreation(axes),ShowCreation(surface))
+        self.play(Write(level1),run_time=0.75)
+        self.play(ShowCreation(circle1))
+        self.play()
+        self.play(Write(level2),FadeOut(level1),run_time=0.75)
+        self.play(ShowCreation(circle2))
+        self.play(Write(level3),FadeOut(level2),run_time=0.75)
+        self.play(ShowCreation(circle3))
+        self.play(Write(level4),FadeOut(level3),run_time=0.75)
+        self.play(ShowCreation(circle4))
+        self.play(Write(level5),FadeOut(level4),run_time=0.75)
+        self.play(ShowCreation(circle5))
+        self.play(Write(level6),FadeOut(level5),run_time=0.75)
+        self.play(ShowCreation(circle6))
+        self.play(FadeOut(level6),run_time=0.75)
+        self.play(ShowCreation(circle7),ShowCreation(circle8),ShowCreation(circle9),ShowCreation(circle10),ShowCreation(circle11),ShowCreation(circle12),ShowCreation(circle13),ShowCreation(circle14),ShowCreation(circle15),ShowCreation(circle16),ShowCreation(circle17),ShowCreation(circle18),ShowCreation(circle19))
+
+        path1 = ParametricFunction(
+            lambda t : np.array([0,0,t]),
+            t_min= -2,t_max=0
+        ).set_opacity(0)
+
+        path2 = ParametricFunction(
+            lambda t : np.array([0,0,t]),
+            t_min= -1,t_max=0
+        ).set_opacity(0)
+
+        path4 = ParametricFunction(
+            lambda t : np.array([0,0,1-t]),
+            t_min= 0,t_max=1
+        ).set_opacity(0)
+
+        path5 = ParametricFunction(
+            lambda t : np.array([0,0,2-t]),
+            t_min= 0,t_max=2
+        ).set_opacity(0)
+
+        path6 = ParametricFunction(
+            lambda t : np.array([0,0,3-t]),
+            t_min= 0,t_max=3
+        ).set_opacity(0)
+
+        path7 = ParametricFunction(
+            lambda t : np.array([0,0,4-t]),
+            t_min= 0,t_max=4
+        ).set_opacity(0)
+
+        path8 = ParametricFunction(
+            lambda t : np.array([0,0,5-t]),
+            t_min= 0,t_max=5
+        ).set_opacity(0)
+
+        path9 = ParametricFunction(
+            lambda t : np.array([0,0,6-t]),
+            t_min= 0,t_max=6
+        ).set_opacity(0)
+
+        path10 = ParametricFunction(
+            lambda t : np.array([0,0,7-t]),
+            t_min= 0,t_max=7
+        ).set_opacity(0)
+
+        path11 = ParametricFunction(
+            lambda t : np.array([0,0,8-t]),
+            t_min= 0,t_max=8
+        ).set_opacity(0)
+
+        path12 = ParametricFunction(
+            lambda t : np.array([0,0,9-t]),
+            t_min= 0,t_max=9
+        ).set_opacity(0)
+
+        path13 = ParametricFunction(
+            lambda t : np.array([0,0,10-t]),
+            t_min= 0,t_max=10
+        ).set_opacity(0)
+
+        path14 = ParametricFunction(
+            lambda t : np.array([0,0,11-t]),
+            t_min= 0,t_max=11
+        ).set_opacity(0)
+
+        path15 = ParametricFunction(
+            lambda t : np.array([0,0,12-t]),
+            t_min= 0,t_max=12
+        ).set_opacity(0)
+
+        path16 = ParametricFunction(
+            lambda t : np.array([0,0,13-t]),
+            t_min= 0,t_max=13
+        ).set_opacity(0)
+
+        path17 = ParametricFunction(
+            lambda t : np.array([0,0,14-t]),
+            t_min= 0,t_max=14
+        ).set_opacity(0)
+
+        path18 = ParametricFunction(
+            lambda t : np.array([0,0,15-t]),
+            t_min= 0,t_max=15
+        ).set_opacity(0)
+
+        path19 = ParametricFunction(
+            lambda t : np.array([0,0,16-t]),
+            t_min= 0,t_max=16
+        ).set_opacity(0)
+
+        self.add(path1,path2,path4,path5,path6,path7,path8,path9,path10,path11,path12,path13,path14,path15,path16,path17,path18,path19)
+
+        self.play(
+            MoveAlongPath(circle1,path1),
+            MoveAlongPath(circle2,path2),
+            MoveAlongPath(circle4,path4),
+            MoveAlongPath(circle5,path5),
+            MoveAlongPath(circle6,path6),
+            MoveAlongPath(circle7,path7),
+            MoveAlongPath(circle8,path8),
+            MoveAlongPath(circle9,path9),
+            MoveAlongPath(circle10,path10),
+            MoveAlongPath(circle11,path11),
+            MoveAlongPath(circle12,path12),
+            MoveAlongPath(circle13,path13),
+            MoveAlongPath(circle14,path14),
+            MoveAlongPath(circle15,path15),
+            MoveAlongPath(circle15,path16),
+            MoveAlongPath(circle15,path17),
+            MoveAlongPath(circle15,path18),
+            MoveAlongPath(circle15,path19),
+            Transform(surface,plane2)
+        )
+        self.move_camera(phi= 0*DEGREES, theta=-90*DEGREES)
+        text17 = MathTex(r"df\,\,\,").scale(2).to_corner(UR)
+        text17[0].set_color(RED)
+        self.play(Write(text17))
+        self.wait(3)
+        text18 = MathTex(r"\nabla f").scale(2).to_corner(UR).set_color(BLUE)
+        self.wait(3)
+        self.play(
+            FadeOut(circle1),
+            FadeOut(circle2),
+            FadeOut(circle3),
+            FadeOut(circle4),
+            FadeOut(circle5),
+            FadeOut(circle6),
+            FadeOut(circle7),
+            FadeOut(circle8),
+            FadeOut(circle9),
+            FadeOut(circle10),
+            FadeOut(circle11),
+            FadeOut(circle12),
+            FadeOut(circle13),
+            FadeOut(circle14),
+            FadeOut(circle15),
+            FadeOut(circle16),
+            FadeOut(circle17),
+            FadeOut(circle18),
+            FadeOut(circle19),
+            GrowFromCenter(vf),
+            Transform(text17,text18)
+        )
+        self.wait(3)
+
+class Scene7 (ThreeDScene):
+    def construct(self):
+        text00 = Text("We can reinterpret the directional").move_to(UP*1.5)
+        text01 = Text("derivative in terms of differential").next_to(text00,DOWN)
+        text02 = Text("forms as well").next_to(text01,DOWN)
+
+        self.play(Write(text00),Write(text01),Write(text02))
+        self.wait(3)
+        self.play(FadeOut(text00),FadeOut(text01),FadeOut(text02))
+
+        text1 = Text("Traditionally we compute the").move_to(UP*2.5)
+        text2 = Text("directional derivative of a function").next_to(text1,DOWN)
+        text3 = Text("using the gradient at a point and").next_to(text2,DOWN)
+        text4 = Text("taking the dot product with a vector.").next_to(text3,DOWN)
+        text5 = MathTex(r"\nabla_{\vec v}f = \nabla f(x,y) \cdot \vec v").move_to(DOWN*1.5).scale(2)
+
+        self.play(Write(text1),Write(text2),Write(text3),Write(text4),Write(text5))
+        self.wait(7)
+        self.play(FadeOut(text1),FadeOut(text2),FadeOut(text3),FadeOut(text4),FadeOut(text5))
+
+        text6 = Text("We can think of this as taking a plane").move_to(UP*2.5)
+        text7 = Text("spanned by the z axis and our vector").next_to(text6,DOWN)
+        text8 = Text("and slicing through the surface to get").next_to(text7,DOWN)
+        text9 = Text("a curve of intersection and then taking").next_to(text8,DOWN)
+        text10= Text("the derivative at that point.").next_to(text9,DOWN)
+
+        self.play(Write(text6),Write(text7),Write(text8),Write(text9),Write(text10))
+        self.wait(7)
+        self.play(FadeOut(text6),FadeOut(text7),FadeOut(text8),FadeOut(text9),FadeOut(text10))
+
+        axes = ThreeDAxes(z_min=-1,z_max=+6,x_min=-7,x_max=+7,y_min=-7,y_max=+7)
+        surface = ParametricSurface(
+            lambda u,v : np.array([u,v,u*0.5 +0.25*(v**2)]),
+            resolution=(22,22),
+            v_min=-6,v_max=+6,u_min=-6,u_max=+6
+        )
+
+        surface.set_style(fill_opacity=1)
+        surface.set_style(stroke_color=PURPLE)
+        surface.set_fill_by_checkerboard(PURPLE, BLUE, opacity=0.15)
+
+        vf = VectorField(
+            lambda x : np.array([0.5,0.5*x[1]]),
+            delta_x=0.5,
+            delta_y=0.5,
+            min_magnitude=0.8,
+            max_magnitude=2,
+            colors=[BLUE,GREEN,YELLOW,ORANGE,RED])
+
+        text7 = MathTex(r"f(x,y)=\frac{1}{2} x +\frac{1}{4}y^2").to_corner(UR)
+        text8 = MathTex(r"\nabla f(x,y)=\frac{1}{2}\hat{i}+ \frac{1}{2}y\hat{j} +1").to_corner(DR)
+
+        self.set_camera_orientation(phi=75 * DEGREES, theta=-30 * DEGREES)
+        self.move_camera(frame_center=[0,0,1])
+        self.play(Write(axes))
+        self.play(Write(surface))
+        self.add_fixed_in_frame_mobjects(text7)
+        self.begin_ambient_camera_rotation(rate=0.1)
+        self.wait(3)
+        self.play(ShowCreation(vf))
+        self.add_fixed_in_frame_mobjects(text8)
+        self.wait(5.5)
+        self.stop_ambient_camera_rotation()
+        self.play(FadeOut(vf))
+
+        text9 = MathTex(r"f(4,2)=3").set_color(YELLOW).to_corner(UR)
+        text10 = MathTex(r"\nabla f(4,2)=\frac{1}{2}\hat{i}+ 1\hat{j}").to_corner(DR).set_color(GREEN)
+        direction1 = Arrow([4,2,0],[4.5,3,0],buff=0,color=GREEN)
+        direction2 = Arrow([4,2,0],[4+2/math.sqrt(5),2+1/math.sqrt(5),0],buff=0,color=BLUE)
+        vline = Line([4,2,0],[4,2,3],color=YELLOW)
+        hline1 = Line([4,0,0],[4,2,0],color=WHITE)
+        hline2 = Line([0,2,0],[4,2,0],color=WHITE)
+        dot1 = Dot([4,2,0],color=WHITE)
+        dot2 = Dot([4,2,3],color=YELLOW)
+
+        self.play(ShowCreation(hline1),ShowCreation(hline2),ShowCreation(dot1))
+        self.play(ShowCreation(vline),ShowCreation(dot2),Transform(text7,text9))
+        self.wait()
+        self.play(ShowCreation(direction1),Transform(text8,text10))
+        self.wait()
+
+
+        intersect1 = ParametricSurface(
+            lambda u,v :
+                np.array([
+                    4+2*u,
+                    2+u,
+                    v
+                ]),
+            u_min=-6.5,u_max=2,v_min=-1,v_max=6
+        )
+        intersect1.set_style(fill_opacity=1)
+        intersect1.set_style(stroke_color=BLUE)
+        intersect1.set_fill_by_checkerboard(GREEN, BLUE, opacity=0.7)
+
+        intersect2 = ParametricFunction(
+            lambda u :
+                np.array([
+                    4+2*u,
+                    2+u,
+                    0.25*u**2 +2*u +3
+                ]),
+            t_min=-6.5,t_max=2,color=RED
+        )
+        tangent1=ParametricFunction(
+            lambda u :
+                np.array([
+                    4+2*u/math.sqrt(5),
+                    2+u/math.sqrt(5),
+                    3+2/math.sqrt(5)*u
+                ]),
+            t_min=-2,t_max=2,color=BLUE
+        )
+
+        vtext = MathTex(r"\vec v = \frac{2}{\sqrt{5}}\hat{i}+\frac{1}{\sqrt{5}}\hat{j}").to_corner(DL).set_color(BLUE)
+        self.wait(2)
+        self.play(ShowCreation(direction2))
+        self.add_fixed_in_frame_mobjects(vtext)
+        self.wait(2)
+        self.play(Write(intersect1))
+        self.wait()
+        self.begin_ambient_camera_rotation(rate=0.1)
+        self.wait()
+        self.play(Write(intersect2))
+        self.wait(1.5)
+        self.play(Write(tangent1))
+        self.wait(3)
+        self.stop_ambient_camera_rotation()
+        self.play(FadeOut(intersect1))
+        self.wait(2)
+        self.play(FadeOut(text7),FadeOut(text8),FadeOut(vtext),FadeOut(direction1),FadeOut(direction2))
+        self.wait(2)
+        self.play(Uncreate(hline1),Uncreate(hline2),Uncreate(vline),Uncreate(dot1),Uncreate(dot2),Uncreate(tangent1),Uncreate(intersect2))
+        self.wait()
+
+        text11 = Text("We can also interpret the directional").move_to(UP)
+        text12 = Text("derivative in terms of differential forms.").next_to(text11,DOWN)
+        rectangle = Rectangle(width=16,height=2,color=BLACK,fill_opacity=1).move_to([0,0.5,0])
+        self.add(rectangle,text11,text12)
+
+        self.add_fixed_in_frame_mobjects(rectangle,text11,text12)
+        self.wait(2)
+        self.play(FadeOut(text11),FadeOut(text12),FadeOut(rectangle))
+
+        slice1 = ParametricSurface(
+            lambda u,v : np.array([u,v,-5]),
+            u_min=-15,u_max=15,v_min=-15,v_max=15,color=BLUE,resolution=(15,15)
+        )
+
+        slice2 = ParametricSurface(
+            lambda u,v : np.array([u,v,-3]),
+            u_min=-15,u_max=15,v_min=-15,v_max=15,color=BLUE,resolution=(15,15)
+        )
+
+        slice3 = ParametricSurface(
+            lambda u,v : np.array([u,v,-2]),
+            u_min=-15,u_max=15,v_min=-15,v_max=15,color=BLUE,resolution=(15,15)
+        )
+
+        slice4 = ParametricSurface(
+            lambda u,v : np.array([u,v,-1]),
+            u_min=-15,u_max=15,v_min=-15,v_max=15,color=BLUE,resolution=(15,15)
+        )
+
+        slice5 = ParametricSurface(
+            lambda u,v : np.array([u,v,0]),
+            u_min=-15,u_max=15,v_min=-15,v_max=15,color=BLUE,resolution=(15,15)
+        )
+
+        slice6 = ParametricSurface(
+            lambda u,v : np.array([u,v,1]),
+            u_min=-15,u_max=15,v_min=-15,v_max=15,color=BLUE,resolution=(15,15)
+        )
+
+        slice7 = ParametricSurface(
+            lambda u,v : np.array([u,v,2]),
+            u_min=-15,u_max=15,v_min=-15,v_max=15,color=BLUE,resolution=(15,15)
+        )
+
+        slice8 = ParametricSurface(
+            lambda u,v : np.array([u,v,3]),
+            u_min=-15,u_max=15,v_min=-15,v_max=15,color=BLUE,resolution=(15,15)
+        )
+        slice9 = ParametricSurface(
+            lambda u,v : np.array([u,v,4]),
+            u_min=-15,u_max=15,v_min=-15,v_max=15,color=BLUE,resolution=(15,15)
+        )
+
+        levelsets = VGroup(
+            ParametricFunction(
+                lambda u: np.array([-0.5*u**2-6,u,-3]),
+                t_min=-5,t_max=5,color=RED
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([-0.5*u**2-4,u,-2]),
+                t_min=-5,t_max=5,color=RED
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([-0.5*u**2-2,u,-1]),
+                t_min=-5,t_max=5,color=RED
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([-0.5*u**2,u,0]),
+                t_min=-5,t_max=5,color=RED
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([-0.5*u**2+2,u,1]),
+                t_min=-5,t_max=5,color=RED
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([-0.5*u**2+4,u,2]),
+                t_min=-5,t_max=5,color=RED
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([-0.5*u**2+6,u,3]),
+                t_min=-5,t_max=5,color=RED
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([-0.5*u**2+8,u,4]),
+                t_min=-5,t_max=5,color=RED
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([-0.5*u**2+10,u,5]),
+                t_min=-5,t_max=5,color=RED
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([-0.5*u**2+12,u,6]),
+                t_min=-5,t_max=5,color=RED
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([-0.5*u**2+14,u,7]),
+                t_min=-5,t_max=5,color=RED
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([-0.5*u**2+16,u,8]),
+                t_min=-5,t_max=5,color=RED
+            )
+        )
+        paths = VGroup(
+            ParametricFunction(
+                lambda u: np.array([
+                    levelsets[0].get_center()[0],
+                    levelsets[0].get_center()[1],
+                    levelsets[0].get_center()[2]-levelsets[0].get_center()[2]*u
+                    ]),
+                t_min=0,t_max=1
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([
+                    levelsets[1].get_center()[0],
+                    levelsets[1].get_center()[1],
+                    levelsets[1].get_center()[2]-levelsets[1].get_center()[2]*u
+                    ]),
+                t_min=0,t_max=1
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([
+                    levelsets[2].get_center()[0],
+                    levelsets[2].get_center()[1],
+                    levelsets[2].get_center()[2]-levelsets[2].get_center()[2]*u
+                    ]),
+                t_min=0,t_max=1
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([
+                    levelsets[3].get_center()[0],
+                    levelsets[3].get_center()[1],
+                    levelsets[3].get_center()[2]-levelsets[3].get_center()[2]*u
+                    ]),
+                t_min=0,t_max=1
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([
+                    levelsets[4].get_center()[0],
+                    levelsets[4].get_center()[1],
+                    levelsets[4].get_center()[2]-levelsets[4].get_center()[2]*u
+                    ]),
+                t_min=0,t_max=1
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([
+                    levelsets[5].get_center()[0],
+                    levelsets[5].get_center()[1],
+                    levelsets[5].get_center()[2]-levelsets[5].get_center()[2]*u
+                    ]),
+                t_min=0,t_max=1
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([
+                    levelsets[6].get_center()[0],
+                    levelsets[6].get_center()[1],
+                    levelsets[6].get_center()[2]-levelsets[6].get_center()[2]*u
+                    ]),
+                t_min=0,t_max=1
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([
+                    levelsets[7].get_center()[0],
+                    levelsets[7].get_center()[1],
+                    levelsets[7].get_center()[2]-levelsets[7].get_center()[2]*u
+                    ]),
+                t_min=0,t_max=1
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([
+                    levelsets[8].get_center()[0],
+                    levelsets[8].get_center()[1],
+                    levelsets[8].get_center()[2]-levelsets[8].get_center()[2]*u
+                    ]),
+                t_min=0,t_max=1
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([
+                    levelsets[9].get_center()[0],
+                    levelsets[9].get_center()[1],
+                    levelsets[9].get_center()[2]-levelsets[9].get_center()[2]*u
+                    ]),
+                t_min=0,t_max=1
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([
+                    levelsets[10].get_center()[0],
+                    levelsets[10].get_center()[1],
+                    levelsets[10].get_center()[2]-levelsets[10].get_center()[2]*u
+                    ]),
+                t_min=0,t_max=1
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([
+                    levelsets[11].get_center()[0],
+                    levelsets[11].get_center()[1],
+                    levelsets[11].get_center()[2]-levelsets[11].get_center()[2]*u
+                    ]),
+                t_min=0,t_max=1
+            )
+        ).set_opacity(0)
+        self.add(paths)
+        self.play(Write(slice1))
+        self.play(Write(levelsets[0]))
+        self.play(FadeOut(slice1))
+        self.play(Write(slice2))
+        self.play(Write(levelsets[1]))
+        self.play(FadeOut(slice2))
+        self.play(Write(slice3))
+        self.play(Write(levelsets[2]))
+        self.play(FadeOut(slice3))
+        self.play(Write(slice4))
+        self.play(Write(levelsets[3]))
+        self.play(FadeOut(slice4))
+        self.play(Write(slice5))
+        self.play(Write(levelsets[4]))
+        self.play(FadeOut(slice5))
+        self.play(Write(slice6))
+        self.play(Write(levelsets[5]))
+        self.play(FadeOut(slice6))
+        self.play(Write(slice7))
+        self.play(Write(levelsets[6]))
+        self.play(FadeOut(slice7))
+        self.play(Write(slice8))
+        self.play(Write(levelsets[7]))
+        self.play(FadeOut(slice8))
+        self.play(Write(slice9))
+        self.play(Write(levelsets[8]))
+        self.play(FadeOut(slice9))
+        self.play(Write(levelsets[9]),Write(levelsets[10]),Write(levelsets[11]))
+        self.wait()
+
+        self.play(
+            MoveAlongPath(levelsets[0],paths[0]),
+            MoveAlongPath(levelsets[1],paths[1]),
+            MoveAlongPath(levelsets[2],paths[2]),
+            MoveAlongPath(levelsets[3],paths[3]),
+            MoveAlongPath(levelsets[4],paths[4]),
+            MoveAlongPath(levelsets[5],paths[5]),
+            MoveAlongPath(levelsets[6],paths[6]),
+            MoveAlongPath(levelsets[7],paths[7]),
+            MoveAlongPath(levelsets[8],paths[8]),
+            MoveAlongPath(levelsets[9],paths[9]),
+            MoveAlongPath(levelsets[10],paths[10]),
+            MoveAlongPath(levelsets[11],paths[11]),
+            FadeOut(surface)
+            )
+
+
+
+        self.move_camera(phi= 0*DEGREES, theta=-90*DEGREES)
+        self.play(FadeOut(axes))
+
+class Scene8(MovingCameraScene):
+    def construct(self):
+        levelsets = VGroup(
+            ParametricFunction(
+                lambda u: np.array([-0.5*u**2-6,u,-3]),
+                t_min=-5,t_max=5,color=RED
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([-0.5*u**2-4,u,-2]),
+                t_min=-5,t_max=5,color=RED
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([-0.5*u**2-2,u,-1]),
+                t_min=-5,t_max=5,color=RED
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([-0.5*u**2,u,0]),
+                t_min=-5,t_max=5,color=RED
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([-0.5*u**2+2,u,1]),
+                t_min=-5,t_max=5,color=RED
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([-0.5*u**2+4,u,2]),
+                t_min=-5,t_max=5,color=RED
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([-0.5*u**2+6,u,3]),
+                t_min=-5,t_max=5,color=RED
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([-0.5*u**2+8,u,4]),
+                t_min=-5,t_max=5,color=RED
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([-0.5*u**2+10,u,5]),
+                t_min=-5,t_max=5,color=RED
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([-0.5*u**2+12,u,5]),
+                t_min=-5,t_max=5,color=RED
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([-0.5*u**2+14,u,5]),
+                t_min=-5,t_max=5,color=RED
+            ),
+
+            ParametricFunction(
+                lambda u: np.array([-0.5*u**2+16,u,5]),
+                t_min=-5,t_max=5,color=RED
+            )
+        )
+        arrows = VGroup(
+            Arrow([-6,0,0],[-5.5,0,0],buff=0,color=RED),
+            Arrow([-4,0,0],[-3.5,0,0],buff=0,color=RED),
+            Arrow([-2,0,0],[-1.5,0,0],buff=0,color=RED),
+            Arrow([0,0,0],[0.5,0,0],buff=0,color=RED),
+            Arrow([2,0,0],[2.5,0,0],buff=0,color=RED),
+            Arrow([4,0,0],[4.5,0,0],buff=0,color=RED),
+            Arrow([6,0,0],[6.5,0,0],buff=0,color=RED),
+            Arrow([8,0,0],[8.5,0,0],buff=0,color=RED),
+            Arrow([8,0,0],[10.5,0,0],buff=0,color=RED)
+            )
+
+        alpha1 = VGroup(
+            ParametricFunction(
+                lambda u : np.array([u+4+(-0.8),-0.5*u+2+(-1.6),0]),
+                t_min=-1.3,t_max=1.3
+            ),
+            ParametricFunction(
+                lambda u : np.array([u+4+(-0.4),-0.5*u+2+(-0.8),0]),
+                t_min=-1.3,t_max=1.3
+            ),
+            ParametricFunction(
+                lambda u : np.array([u+4,-0.5*u+2,0]),
+                t_min=-1.3,t_max=1.3
+            ),
+            ParametricFunction(
+                lambda u : np.array([u+4+(0.4),-0.5*u+2+(0.8),0]),
+                t_min=-1.3,t_max=1.3
+            ),
+            ParametricFunction(
+                lambda u : np.array([u+4+(0.8),-0.5*u+2+(1.6),0]),
+                t_min=-1.3,t_max=1.3
+            )
+        ).set_opacity(1)
+        alpha1[2].set_opacity(1)
+        alpha2 = VGroup(
+            Arrow([4+(-0.8),2+(-1.6),0],[4+(-0.8)+0.2,2+(-1.6)+0.4,0],buff=0),
+            Arrow([4+(-0.4),2+(-0.8),0],[4+(-0.4)+0.2,2+(-0.8)+0.4,0],buff=0),
+            Arrow([4,2,0],[4+0.2,2+0.4,0],buff=0),
+            Arrow([4+(0.4),2+(0.8),0],[4+(0.4)+0.2,2+(0.8)+0.4,0],buff=0),
+            Arrow([4+(0.8),2+(1.6),0],[4+(0.8)+0.2,2+(1.6)+0.4,0],buff=0)
+        ).set_opacity(1)
+        alpha2[2].set_opacity(1)
+
+        dot = Dot([4,2,0])
+        direction1 = Arrow([4,2,0],[4.5,3,0],buff=0,color=GREEN)
+        direction2 = Arrow([4,2,0],[4+2/math.sqrt(5),2+1/math.sqrt(5),0],buff=0,color=BLUE)
+
+        axes = NumberPlane()
+
+        text1 = MathTex("df").set_color(RED).move_to([-0.5,0,0]).scale(1.2)
+        text2 = MathTex(r"df",r"_{(4,2)}").move_to([6.3,1,0])
+        text2[0].scale(1.2)
+        text2[1].scale(0.8)
+        text3 = MathTex(r"df",r"_p",r"(",r"\vec v",r")",r"=\frac{2}{\sqrt 5}").move_to([0,2,0])
+        text3[0].set_color(RED).scale(1.2)
+        text3[1].scale(0.9)
+        text3[3].set_color(BLUE)
+
+        rectangle = Rectangle(color=BLACK,fill_color=BLACK,fill_opacity=1,height=1.5,width=4).move_to(text3)
+
+        self.add(levelsets)
+        self.play(Write(arrows))
+        self.wait(2)
+        self.play(Write(text1))
+        self.wait(2)
+        self.play(self.camera.frame.animate.move_to([3,2,0]).scale(0.7))
+        self.play(ShowCreation(dot),ShowCreation(alpha1),ShowCreation(alpha2),Write(text2))
+        self.wait(3)
+        self.play(ShowCreation(direction1))
+        self.wait(2)
+        self.play(Transform(direction1,direction2),Write(rectangle),Write(text3))
+        self.wait(3)
