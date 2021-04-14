@@ -2127,3 +2127,352 @@ class Scene8(MovingCameraScene):
         self.wait(2)
         self.play(Transform(direction1,direction2),Write(rectangle),Write(text3))
         self.wait(3)
+
+
+
+class Scene9(GraphScene):
+    """
+    to use this scene you need these imports and should render it as a separate file
+    from manim import*
+    import math
+    import numpy as np
+    from typing import Callable
+    
+    import os
+    import itertools as it
+    from PIL import Image
+    import random
+    
+    from manim import config, logger
+    from manim.constants import *
+    from manim.animation.composition import AnimationGroup
+    from manim.animation.indication import ShowPassingFlash
+    from manim.mobject.geometry import Vector
+    from manim.mobject.types.vectorized_mobject import VGroup
+    from manim.mobject.types.vectorized_mobject import VMobject
+    from manim.utils.bezier import inverse_interpolate
+    from manim.utils.bezier import interpolate
+    from manim.utils.color import color_to_rgb, BLUE_E, GREEN, YELLOW, RED, BLUE, WHITE
+    from manim.utils.color import rgb_to_color
+    from manim.utils.rate_functions import linear
+    from manim.utils.simple_functions import sigmoid
+    from manim.utils.space_ops import get_norm
+    from manim.mobject.mobject import Mobject
+
+    """
+    def __init__(self, **kwargs):
+        GraphScene.__init__(
+            self,
+            x_min = 0,
+            x_max = 5,
+            y_min = 0,
+            y_max = 5,
+            x_axis_width = 6.5,
+            y_axis_width = 5,
+            include_ticks = False,
+            graph_origin = [-7,-3,0]
+        )
+    def construct(self):
+        class VectorField2(VGroup):
+            def __init__(
+                self,
+                func: Callable,
+                delta_x=0.75,
+                delta_y=0.75,
+                min_magnitude=1,
+                max_magnitude=2,
+                colors=[BLUE,GREEN,YELLOW,ORANGE,RED],
+                # Takes in actual norm, spits out displayed norm
+                length_func=lambda norm: 0.45 * sigmoid(norm),
+                opacity=1.0,
+                vector_config=None,
+                **kwargs
+            ):
+                self.delta_x = delta_x
+                self.delta_y = delta_y
+                self.min_magnitude = min_magnitude
+                self.max_magnitude = max_magnitude
+                self.colors = colors
+                self.length_func = length_func
+                self.opacity = opacity
+                if vector_config is None:
+                    vector_config = {}
+                self.vector_config = vector_config
+                VGroup.__init__(self, **kwargs)
+                self.x_min = 0
+                self.x_max = 6
+                self.y_min = 0
+                self.y_max = 6
+                self.func = func
+                self.rgb_gradient_function = get_rgb_gradient_function(
+                    self.min_magnitude, self.max_magnitude, self.colors, flip_alphas=False
+                )
+                x_range = np.arange(self.x_min, self.x_max + self.delta_x, self.delta_x)
+                y_range = np.arange(self.y_min, self.y_max + self.delta_y, self.delta_y)
+                for x, y in it.product(x_range, y_range):
+                    point = x * RIGHT + y * UP
+                    self.add(self.get_vector(point))
+                self.set_opacity(self.opacity)
+
+            def get_vector(self, point, **kwargs):
+                output = np.array(self.func(point))
+                norm = get_norm(output)
+                if norm == 0:
+                    output *= 0
+                else:
+                    output *= self.length_func(norm) / norm
+                vector_config = dict(self.vector_config)
+                vector_config.update(kwargs)
+                vect = Vector(output, **vector_config)
+                vect.shift(point)
+                fill_color = rgb_to_color(self.rgb_gradient_function(np.array([norm]))[0])
+                vect.set_color(fill_color)
+                return vect
+
+        text11 = Text("Lastly, lets explore line integrals.").move_to(UP*2)
+        text12 = Text("The line integral is an extension").next_to(text11,DOWN)
+        text13 = Text("of our single variable integral").next_to(text12,DOWN)
+        text14 = Text("to curved paths.").next_to(text13,DOWN)
+
+        text15 = Text("In our ordinary integrals, we could").move_to(UP*1.5)
+        text16 = Text("only travel along a straight path").next_to(text15,DOWN)
+        text17 = Text("along our interval.").next_to(text16,DOWN)
+
+        text18 = Text("There are two kinds of line integrals").move_to(UP*1.5)
+        text19 = Text("but today will will only examine").next_to(text18,DOWN)
+        text20 = Text("line integrals over vector fields.").next_to(text19,DOWN)
+
+        text21 = Text("In particular, we will be looking at").move_to(UP*1.5)
+        text22 = Text("line integrals over conservative").next_to(text21,DOWN)
+        text23 = Text("vector fields.").next_to(text22,DOWN)
+
+        self.play(Write(text11),Write(text12),Write(text13),Write(text14))
+        self.wait(5)
+        self.play(FadeOut(text11),FadeOut(text12),FadeOut(text13),FadeOut(text14))
+        self.play(Write(text15),Write(text16),Write(text17))
+        self.wait(4)
+        self.play(FadeOut(text15),FadeOut(text16),FadeOut(text17))
+        self.play(Write(text18),Write(text19),Write(text20))
+        self.wait(4)
+        self.play(FadeOut(text18),FadeOut(text19),FadeOut(text20))
+        self.play(Write(text21),Write(text22),Write(text23))
+        self.wait(4)
+        self.play(FadeOut(text21),FadeOut(text22),FadeOut(text23))
+
+        self.setup_axes(animate=True)
+        self.wait()
+
+        path = ParametricFunction(
+            lambda t: self.coords_to_point(1+t*2,1+2*t+math.sin(t*3)),
+            t_min=0,
+            t_max = 1.85198,
+            color=YELLOW_D
+        ).set_opacity(0)
+
+
+        dot1 = Dot(path.get_point_from_function(0),color=RED)
+        dot1text = MathTex(r"t=a").set_color(RED).next_to(dot1,RIGHT)
+        dot1text1 = MathTex(r"a").set_color(RED).next_to(dot1,RIGHT)
+        dot2 = Dot(path.get_point_from_function(1.85198),color=BLUE)
+        dot2text = MathTex(r"t=b").set_color(BLUE).next_to(dot2,RIGHT)
+        dot2text1 = MathTex(r"b").set_color(BLUE).next_to(dot2,RIGHT)
+        dot3 = Dot().move_to(dot1).set_opacity(0)
+        dot4 = Dot().move_to(dot1).set_opacity(0)
+        position = Vector([1,0,0]).put_start_and_end_on([-7,-3,0],dot3.get_center())
+        position.add_updater(lambda m: m.put_start_and_end_on([-7,-3,0],dot3.get_center()))
+
+        curve_start = dot3.get_center()
+        self.curve = VGroup()
+        self.curve.add(Line(curve_start,curve_start))
+        def get_curve():
+            last_line = self.curve[-1]
+            x = dot3.get_center()[0]
+            y = dot3.get_center()[1]
+            new_line = Line(last_line.get_end(),np.array([x,y,0]), color=YELLOW_D)
+            self.curve.add(new_line)
+            return self.curve
+        path1 = always_redraw(get_curve)
+
+        vf = VectorField2(lambda x : np.array([0.3*x[1],0.3*x[0]]))
+        vf.move_to(self.coords_to_point(2.4,2.6))
+        vfp = Vector([1,0,0]).set_color(RED)
+        vfp.add_updater(
+            lambda m:(
+                x := self.point_to_coords(dot4.get_center())[0],
+                y := self.point_to_coords(dot4.get_center())[1],
+                m.put_start_and_end_on(
+                    dot4.get_center(),
+                    dot4.get_center()+np.array([0.3*y,0.3*x,0])
+                )
+            )
+        )
+
+        pathtext1 = MathTex("C",r":\vec {r}(t) = x(t)\hat{i} +y(t)\hat{j}").move_to(dot2.get_center() +RIGHT*4.5+UP*0.5)
+        pathtext1[0].set_color(YELLOW_D)
+        vftext = MathTex(r"\vec F(x,y)",r"&=P(x,y)\hat{i}+Q(x,y)\hat{j} \\",r"&=\nabla \phi").next_to(pathtext1,DOWN)
+        vftext[0].set_color(RED)
+
+        tangenttext = MathTex(r"\vec T",r"= \frac{\vec r(t)'}{|\vec r(t)'|}").next_to(vftext,DOWN)
+        tangenttext[0].set_color(BLUE)
+
+
+
+
+        derivative = Vector([1,0,0]).set_color(BLUE)
+        derivative.add_updater(
+            lambda m: (
+                t := (self.point_to_coords(dot4.get_center())[0]*2 -1)*0.25,
+                m.put_start_and_end_on(
+                    dot4.get_center(),
+                    np.array([dot4.get_center()[0],dot4.get_center()[1],0]) +np.array([2/math.sqrt(8+12*math.cos(3*t)+9*math.cos(3*t)**2),(2+3*math.cos(3*t))/math.sqrt(8+12*math.cos(3*t)+9*math.cos(3*t)**2),0]),
+                )
+            )
+        )
+
+        self.add(dot3,dot4,dot1text,dot2text,path)
+        self.add_foreground_mobjects(path1,dot1,dot2)
+        self.wait()
+        self.play(Write(pathtext1))
+        self.wait()
+        self.add(position)
+        self.play(MoveAlongPath(dot3,path),rate_func=linear,run_time=3)
+        self.remove(position)
+        self.wait()
+        self.play(Transform(dot1text,dot1text1),Transform(dot2text,dot2text1),ShowCreation(vf),Write(vftext[0]),Write(vftext[1]))
+        self.wait(2)
+        self.play(Write(tangenttext))
+        self.add_foreground_mobjects(derivative,vfp)
+        self.wait(2)
+
+
+        integ1 = MathTex(r"\int_c",r"\vec F","\cdot",r"\vec dr").next_to(tangenttext,DOWN)
+        integ1[1].set_color(RED)
+        integ1[3].set_color(BLUE)
+
+        integ2 = MathTex(r"\int_{c}",r"\vec F(x,y)","\cdot",r"\vec T ds").move_to(integ1.get_center())
+        integ2[1].set_color(RED)
+        integ2[3].set_color(BLUE)
+
+        integ3 = MathTex(r"\int_{a}^{b}",r"\vec F(\vec r(t))","\cdot",r"\frac{\vec r(t)'}{|\vec r(t)'|}|\vec r(t)'|dt").move_to(integ1.get_center())
+        integ3[1].set_color(RED)
+        integ3[3].set_color(BLUE)
+
+        integ4 = MathTex(r"\int_{a}^{b}",r"\vec F(\vec r(t))","\cdot",r"\vec r(t)'dt").move_to(integ1.get_center())
+        integ4[1].set_color(RED)
+        integ4[3].set_color(BLUE)
+
+        integ5 = MathTex(r"\int_{a}^{b}(","P",r"\hat{i}+","Q",r"\hat{j})\cdot(",r"x(t)'dt",r"\hat{i}","+",r"y(t)'dt",r"\hat{j})").move_to(integ1.get_center()+LEFT*0.5)
+        integ5[1].set_color(RED)
+        integ5[3].set_color(RED)
+        integ5[5].set_color(BLUE)
+        integ5[8].set_color(BLUE)
+
+        integ6 = MathTex(r"\int_{a}^{b}(","P",r"\hat{i}+","Q",r"\hat{j})\cdot(",r"dx",r"\hat{i}","+",r"dy",r"\hat{j})").move_to(integ1.get_center())
+        integ6[1].set_color(RED)
+        integ6[3].set_color(RED)
+        integ6[5].set_color(BLUE)
+        integ6[8].set_color(BLUE)
+
+        integ7 = MathTex(r"\int_{c}","P","dx","+","Q","dy",r"=\int_{a}^{b}",r"d\phi").move_to(integ1.get_center())
+        integ7[1].set_color(RED)
+        integ7[2].set_color(BLUE)
+        integ7[4].set_color(RED)
+        integ7[5].set_color(BLUE)
+        integ7[6].set_opacity(0)
+        integ7[7].set_color_by_gradient(BLUE,GREEN,YELLOW,RED).set_opacity(0)
+
+        integ8 = MathTex(r"=\int_{a}^{b}").set_opacity(0)
+        dphi = ImageMobject("dphi.png").scale(0.4)
+
+
+        self.play(Write(integ1))
+        self.wait(4)
+        self.play(Transform(integ1,integ2))
+        self.wait(4)
+        self.play(MoveAlongPath(dot4,path),rate_func=linear,run_time=6)
+        self.wait(4)
+        self.play(Transform(integ1,integ3),FadeOut(derivative),FadeOut(vfp))
+        self.wait(5)
+        self.play(Transform(integ1,integ4))
+        self.wait(7)
+        self.play(Transform(integ1,integ5))
+        self.wait(5)
+        self.play(Transform(integ1,integ6))
+        self.wait(5)
+        self.play(Transform(integ1,integ7))
+        self.wait(7)
+
+        text1 = MathTex(r"\\& P",r"=\frac{\partial \phi}{\partial x}\quad",r"Q",r"=\frac{\partial \phi}{\partial y}").next_to(vftext,DOWN)
+        text1[0].set_color(RED)
+        text1[2].set_color(RED)
+        text2 = MathTex(r"d\phi &= \frac{\partial \phi}{\partial x}dx +\frac{\partial \phi}{\partial y}dy\\",r"&=","P","dx","+","Q","dy").next_to(text1,DOWN)
+        text2[2].set_color(RED)
+        text2[3].set_color(BLUE)
+        text2[5].set_color(RED)
+        text2[6].set_color(BLUE)
+        text3 = ImageMobject("dphi.png").next_to(dot2,UP).scale(0.75)
+
+        def hyperbola(z):
+            hyp = self.get_graph(
+                lambda x: z/x,
+                x_min=z/5,
+                x_max=5,
+            )
+            return hyp
+        stacks=VGroup()
+        for x in range(1,20,2):
+            stacks.add(hyperbola(x))
+
+        stacks.set_color_by_gradient(BLUE,GREEN,YELLOW,RED)
+
+        self.play(integ1.animate.move_to(pathtext1.get_center()+0.5),FadeOut(pathtext1),FadeOut(tangenttext))
+        integ8.next_to(integ1[7],RIGHT)
+        dphi.next_to(integ8,RIGHT)
+        self.wait(5)
+        self.play(Write(vftext[2]))
+        self.wait(5)
+        self.play(Write(text1))
+        self.wait(5)
+        self.play(Write(text2[0]))
+        self.wait(5)
+        self.play(Write(text2[1]),Write(text2[2]),Write(text2[3]),Write(text2[4]),Write(text2[5]),Write(text2[6]))
+        self.wait(5)
+        self.play(integ8.animate.set_opacity(1),FadeIn(dphi.next_to(integ8,RIGHT)))
+        self.wait()
+        self.play(Transform(vf,stacks),FadeIn(text3))
+        self.wait(5)
+
+        intphi = Group(
+            integ8,
+            dphi
+        )
+
+        dot7 = Dot().set_opacity(0).next_to(integ1[0],DOWN)
+        self.add(dot7)
+        self.play(FadeOut(vftext),FadeOut(text2),FadeOut(text1))
+        self.play(intphi.animate.next_to(dot7,DOWN))
+        self.wait()
+        text4 = MathTex(r"=\phi(","b",")-",r"\phi(","a",")").next_to(intphi,RIGHT)
+        text4[1].set_color(BLUE)
+        text4[4].set_color(RED)
+        self.play(Write(text4))
+        self.wait(2)
+        path2 = self.get_graph(
+            lambda x: 2.44458-1.9261*x+0.481526*x**2,
+            x_min = 1,
+            x_max = 4.70396
+        ).set_color(YELLOW_D)
+        path3 = self.get_graph(
+            lambda x: -2.38648+3.93198*x-0.545494*x**2,
+            x_min = 1,
+            x_max = 4.70396
+        ).set_color(YELLOW_D)
+
+        path4 = self.get_graph(
+            lambda x: -10.3581+17.8231*x -7.35806*x**(2)+0.893009*x**(3),
+            x_min = 1,
+            x_max = 4.773409
+        ).set_color(PURPLE)
+        self.play(Write(path2),Write(path3))
+        self.wait()
+
